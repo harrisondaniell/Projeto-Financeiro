@@ -1,0 +1,82 @@
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.is-light { background-color: #f1f5f9; color: #212529; }
+.is-dark { background-color: #212529; color: #f1f5f9; }
+.temaWhite {background-color: #f1f5f9; color: black;}
+.temaBlack {background-color: #212529; color: white;}
+
+img { float: left; height: 300px; width: 300px; padding-right: 80px; border-radius: 20px; }
+
+
+input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#planoDeFundo {
+  position: fixed;
+  top: 17px;
+  right: 50px;
+}
+
+
+
+button {
+  background-color: rebeccapurple;
+  border: none;
+  border-radius: .25rem;
+  font-weight: 700;
+  padding: .5rem 1rem;
+  transition: .15s;
+  color: white;
+}
+
+nav {
+  background-color: rebeccapurple;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+li {
+  margin: 0 10px;
+}
+
+a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 15px;
+  transition: background-color 0.3s ease;
+}
+
+a:hover {
+  background-color: #555;
+}
+
+footer {
+  background-color: rebeccapurple;
+  color: #f1f5f9;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
