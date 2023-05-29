@@ -3,6 +3,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  text-align: center;
 }
 
 .is-light { background-color: #f1f5f9; color: #212529; }
@@ -18,13 +19,28 @@ input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 #planoDeFundo {
   position: fixed;
-  top: 17px;
-  right: 50px;
+  top: 10px;
+  right: 40px;
 }
+
+#outAccountList {
+  font-size: 20px;
+}
+
+#outTotal {
+  font-size: 15px;
+}
+
+/* #outAccountList {
+  position: fixed;
+  top: 80px;
+  right: 80px;
+} */
 
 
 
@@ -38,6 +54,10 @@ button {
   color: white;
 }
 
+h3 {
+  color: red;
+}
+
 nav {
   background-color: rebeccapurple;
   height: 50px;
@@ -45,38 +65,3 @@ nav {
   justify-content: center;
 }
 
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-li {
-  margin: 0 10px;
-}
-
-a {
-  display: block;
-  color: #fff;
-  text-decoration: none;
-  padding: 15px;
-  transition: background-color 0.3s ease;
-}
-
-a:hover {
-  background-color: #555;
-}
-
-footer {
-  background-color: rebeccapurple;
-  color: #f1f5f9;
-  height: 50px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
