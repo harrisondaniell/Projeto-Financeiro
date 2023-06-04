@@ -2,7 +2,7 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
@@ -54,8 +54,39 @@ button {
   color: white;
 }
 
+#btnClearList {
+  background-color: rgb(196, 14, 14);
+}
+
+
+button, span, .clickable {
+  cursor: pointer;
+}
+
+.vermelho {
+  color: red;
+  font-style: italic;
+}
+
+hr {
+  height: 2px;
+  width: 50%; /* Largura do hr */
+  background-color: rebeccapurple; /* Cor de fundo do hr */
+  border: none;
+  margin: 20px auto; /* Margem superior e inferior do hr e centralizado horizontalmente */
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+
 h3 {
   color: red;
+}
+
+h4 {
+  font-size: 20px;
+  padding: 0px;
+  margin: 0px;
+  /* display: inline; */
 }
 
 nav {

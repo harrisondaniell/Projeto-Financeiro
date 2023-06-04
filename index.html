@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,25 +9,29 @@
   <link rel="stylesheet" href="style.css">
   <title>Document</title>
 </head>
+
 <body class="is-light">
   <nav>
-    <button id="planoDeFundo" class="temaBlack">DarkMode</button>
+    <button id="planoDeFundo" class="temaBlack clickable">DarkMode</button>
   </nav>
 
   <!-- <img src="img/imagem2.jpg" id="minha-imagem" alt=""> -->
-  <h1 id="title">Pantera do Financeiro</h1>  
+  <h1 id="title">Controle Financeiro</h1>
   <p>
     <input type="text" placeholder="Digite o nome da conta" id="inDescription">
   </p>
   <p>
     <input type="text" min="0" placeholder="Digite o valor da conta" id="inValue" required>
   </p>
-  <button id="btnRegister">Registrar a conta</button>
+  <button id="btnRegister">Registrar</button>
+  <button id="btnRemoveItem">Remover</button>
   <button id="btnClearList">Limpar Lista</button>
   <h3 id="outWarning"></h3>
   <pre id="outAccountList"></pre>
-  <pre id="outTotal"></pre>
+  <div id="outTotal">
+  </div>
 
-  
+
 </body>
+
 </html>

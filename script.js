@@ -15,7 +15,6 @@ function register() {
   let inValue = getId('inValue');
   let outAccountList = getId('outAccountList');
   let outTotal = getId('outTotal');
-
   let description = inDescription.value;
   let value = Number(inValue.value);
 
@@ -48,21 +47,26 @@ function register() {
 
   listAccounts()
 
-
   inDescription.value = '';
   inValue.value = '';
   warning('')
   inDescription.focus();
-
 }
 
 const btnRegister = document.getElementById('btnRegister');
 btnRegister.addEventListener('click', register);
 
+function clearH4Elements() {
+  let h4Elements = document.querySelectorAll('h4');
+  h4Elements.forEach(function (element) {
+    element.remove();
+  });
+}
 
 function listAccounts() {
   let outAccountList = getId('outAccountList');
-  let outTotal = getId('outTotal')
+  let outTotal = getId('outTotal');
+  let h4 = document.querySelectorAll('h4')
 
   if (!localStorage.getItem('names')) {
     outAccountList.textContent = '';
@@ -70,23 +74,82 @@ function listAccounts() {
     return;
   }
 
-
   let listNames = localStorage.getItem('names').split(';');
   let listValues = localStorage.getItem('values').split(';');
   let accounts = ''
   let sum = 0
-  let separator = '--------------------------------\n';
   let tam = listNames.length;
-  for (let i = 0; i < tam; i++) {
-    accounts += `${listNames[i]} - R$ ${Number(listValues[i]).toFixed(2)} \n`
-    sum += Number(listValues[i]);
+
+  if (h4.length == listNames.length) {
+    return;
   }
 
+  if (document.getElementsByTagName('hr').length === 0) {
+    let hr = document.createElement('hr')
+    outTotal.appendChild(hr)
+  }
+  clearH4Elements();
+
+  for (let i = 0; i < tam; i++) {
+    accounts = `${listNames[i]} - R$ ${Number(listValues[i]).toFixed(2)} \n`
+    let h4 = document.createElement('h4'); // cria o elemento HTML h5
+    let span = document.createElement('span');
+    let text = document.createTextNode(accounts); // cria um texto
+    span.appendChild(text); // define que o texto será filho de h5
+    h4.appendChild(span)
+    outTotal.appendChild(h4); // ...e que h5 será filho de divQuadro
+    sum += Number(listValues[i]);
+  }
   outAccountList.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
-  outTotal.textContent = separator + accounts;
+  // outTotal.textContent = accounts;
 }
 
 listAccounts()
+
+// Alterando estilo e cor dos elementos h4 clicados
+function mudarCor() {
+  warning('')
+  this.classList.toggle('vermelho');
+}
+
+let span = document.querySelectorAll('span');
+span.forEach(function (element) {
+  element.addEventListener('click', mudarCor);
+});
+
+
+
+
+function itemRemove() {
+  let span = document.querySelectorAll('span');
+  let tam = span.length;
+  let flag = 0;
+  let listNames = localStorage.getItem('names').split(';');
+  let listValues = localStorage.getItem('values').split(';');
+  warning('');
+
+  for (let i = tam - 1; i >= 0; i--) {
+    if (span[i].classList.contains('vermelho')) {
+      span[i].remove();
+      listNames.splice(i, 1);
+      listValues.splice(i, 1);
+      flag++;
+    }
+  }
+
+  if (flag === 0) {
+    warning('Selecione alguma conta primeiro');
+  } else {
+    localStorage.setItem('names', listNames.join(';'));
+    localStorage.setItem('values', listValues.join(';'));
+    warning('');
+  }
+}
+
+
+let btnItemRemove = getId('btnRemoveItem');
+btnItemRemove.addEventListener('click', itemRemove)
+
 
 // função vai ser utilizada como callback do evento keyup
 function enter(event) {
@@ -100,7 +163,6 @@ let inDescription = document.getElementById('inDescription');
 let inValue = document.getElementById('inValue');
 inDescription.addEventListener('keyup', enter)
 inValue.addEventListener('keyup', enter)
-
 
 
 function clearList() {
@@ -140,12 +202,12 @@ function switchTheme() {
 
     theme.classList.toggle('temaWhite');
     theme.classList.toggle('temaBlack');
-    title.textContent = 'Mr.Robot do Financeiro';
+    // title.textContent = 'Mr.Robot do Financeiro';
   } else {
     theme.textContent = 'DarkMode'
     theme.classList.toggle('temaWhite');
     theme.classList.toggle('temaBlack');
-    title.textContent = 'Pantera do Financeiro';
+    // title.textContent = 'Pantera do Financeiro';
   }
 }
 document.getElementById('planoDeFundo').addEventListener('click', switchTheme)
