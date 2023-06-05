@@ -66,6 +66,7 @@ button, span, .clickable {
 .vermelho {
   color: red;
   font-style: italic;
+  font-weight: bold;
 }
 
 hr {

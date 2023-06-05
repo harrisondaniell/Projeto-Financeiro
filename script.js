@@ -32,14 +32,13 @@ function register() {
     return;
   }
 
-  let listNames;
-  let listValues;
+
   if (!localStorage.getItem('names') && !localStorage.getItem('values')) {
     localStorage.setItem('names', description)
     localStorage.setItem('values', value)
   } else {
-    listNames = localStorage.getItem('names') + ';' + description
-    listValues = localStorage.getItem('values') + ';' + value
+    let listNames = localStorage.getItem('names') + ';' + description
+    let listValues = localStorage.getItem('values') + ';' + value
 
     localStorage.setItem('names', listNames)
     localStorage.setItem('values', listValues)
@@ -100,6 +99,14 @@ function listAccounts() {
     outTotal.appendChild(h4); // ...e que h5 será filho de divQuadro
     sum += Number(listValues[i]);
   }
+
+  let span = document.querySelectorAll('span');
+  span.forEach(function (element) {
+    element.addEventListener('click', function mudarCor() {
+      warning('')
+      this.classList.toggle('vermelho');
+    });
+  });
   outAccountList.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
   // outTotal.textContent = accounts;
 }
@@ -107,15 +114,9 @@ function listAccounts() {
 listAccounts()
 
 // Alterando estilo e cor dos elementos h4 clicados
-function mudarCor() {
-  warning('')
-  this.classList.toggle('vermelho');
-}
 
-let span = document.querySelectorAll('span');
-span.forEach(function (element) {
-  element.addEventListener('click', mudarCor);
-});
+
+
 
 
 
@@ -144,6 +145,7 @@ function itemRemove() {
     localStorage.setItem('values', listValues.join(';'));
     warning('');
   }
+  listAccounts()
 }
 
 
