@@ -116,11 +116,6 @@ listAccounts()
 // Alterando estilo e cor dos elementos h4 clicados
 
 
-
-
-
-
-
 function itemRemove() {
   let span = document.querySelectorAll('span');
   let tam = span.length;

@@ -6,12 +6,33 @@ body {
   text-align: center;
 }
 
-.is-light { background-color: #f1f5f9; color: #212529; }
-.is-dark { background-color: #212529; color: #f1f5f9; }
-.temaWhite {background-color: #f1f5f9; color: black;}
-.temaBlack {background-color: #212529; color: white;}
+.is-light {
+  background-color: #f1f5f9;
+  color: #212529;
+}
 
-img { float: left; height: 300px; width: 300px; padding-right: 80px; border-radius: 20px; }
+.is-dark {
+  background-color: #212529;
+  color: #f1f5f9;
+}
+
+.temaWhite {
+  background-color: #f1f5f9;
+  color: black;
+}
+
+.temaBlack {
+  background-color: #212529;
+  color: white;
+}
+
+img {
+  float: left;
+  height: 300px;
+  width: 300px;
+  padding-right: 80px;
+  border-radius: 20px;
+}
 
 
 input[type="text"] {
@@ -59,7 +80,8 @@ button {
 }
 
 
-button, span, .clickable {
+button,
+span {
   cursor: pointer;
 }
 
@@ -71,11 +93,15 @@ button, span, .clickable {
 
 hr {
   height: 2px;
-  width: 50%; /* Largura do hr */
-  background-color: rebeccapurple; /* Cor de fundo do hr */
+  width: 50%;
+  /* Largura do hr */
+  background-color: rebeccapurple;
+  /* Cor de fundo do hr */
   border: none;
-  margin: 20px auto; /* Margem superior e inferior do hr e centralizado horizontalmente */
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); /* Sombra */
+  margin: 20px auto;
+  /* Margem superior e inferior do hr e centralizado horizontalmente */
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  /* Sombra */
 }
 
 
@@ -84,13 +110,19 @@ h3 {
 }
 
 h4 {
-  font-size: 20px;
   padding: 0px;
   margin: 0px;
   /* display: inline; */
+}
+
+span {
+  font-size: 20px;
+  margin-bottom: 5px;
+  display: inline-block;
   transition: transform 0.2s ease-in-out;
 }
-h4:hover {
+
+span:hover {
   transform: scale(1.1);
 }
 
@@ -100,5 +132,3 @@ nav {
   display: flex;
   justify-content: center;
 }
-
-
