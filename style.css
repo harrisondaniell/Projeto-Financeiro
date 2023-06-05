@@ -6,25 +6,6 @@ body {
   text-align: center;
 }
 
-.is-light {
-  background-color: #f1f5f9;
-  color: #212529;
-}
-
-.is-dark {
-  background-color: #212529;
-  color: #f1f5f9;
-}
-
-.temaWhite {
-  background-color: #f1f5f9;
-  color: black;
-}
-
-.temaBlack {
-  background-color: #212529;
-  color: white;
-}
 
 img {
   float: left;
@@ -131,4 +112,10 @@ nav {
   height: 50px;
   display: flex;
   justify-content: center;
+}
+
+#title  {
+  margin-top: 10px;
+  color: white;
+  font-size: 30px;
 }

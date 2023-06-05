@@ -9,7 +9,7 @@ function warning(text) {
   outWarning.textContent = text
 }
 
-// essa é a função principal, vai trabalhar com as váriaveis globais
+// essa é a função principal
 function register() {
   let inDescription = getId('inDescription');
   let inValue = getId('inValue');
@@ -18,6 +18,7 @@ function register() {
   let description = inDescription.value;
   let value = Number(inValue.value);
 
+  // validação de dados
   if ((value == 0 || isNaN(value)) && description == '') {
     warning('Informe os dados da conta')
     inDescription.focus()
@@ -32,17 +33,16 @@ function register() {
     return;
   }
 
+  let accounts = localStorage.getItem('accounts');
+  let accountList = [];
+  // verificando se já existem dados no localStorage
 
-  if (!localStorage.getItem('names') && !localStorage.getItem('values')) {
-    localStorage.setItem('names', description)
-    localStorage.setItem('values', value)
-  } else {
-    let listNames = localStorage.getItem('names') + ';' + description
-    let listValues = localStorage.getItem('values') + ';' + value
-
-    localStorage.setItem('names', listNames)
-    localStorage.setItem('values', listValues)
+  if (accounts) {
+    accountList = JSON.parse(accounts);
   }
+
+  accountList.push({ description: description, value: value });
+  localStorage.setItem('accounts', JSON.stringify(accountList));
 
   listAccounts()
 
@@ -67,19 +67,20 @@ function listAccounts() {
   let outTotal = getId('outTotal');
   let h4 = document.querySelectorAll('h4')
 
-  if (!localStorage.getItem('names')) {
+  if (!localStorage.getItem('accounts')) {
     outAccountList.textContent = '';
     outTotal.textContent = '';
     return;
   }
 
-  let listNames = localStorage.getItem('names').split(';');
-  let listValues = localStorage.getItem('values').split(';');
+  let accountList = JSON.parse(localStorage.getItem('accounts'));
+
+
   let accounts = ''
   let sum = 0
-  let tam = listNames.length;
+  let tam = accountList.length;
 
-  if (h4.length == listNames.length) {
+  if (h4.length == tam) {
     return;
   }
 
@@ -90,15 +91,19 @@ function listAccounts() {
   clearH4Elements();
 
   for (let i = 0; i < tam; i++) {
-    accounts = `${listNames[i]} - R$ ${Number(listValues[i]).toFixed(2)} \n`
-    let h4 = document.createElement('h4'); // cria o elemento HTML h5
+    accounts = `${accountList[i].description} - R$ ${Number(accountList[i].value).toFixed(2)}\n`;
+
+    let h4 = document.createElement('h4');
     let span = document.createElement('span');
-    let text = document.createTextNode(accounts); // cria um texto
-    span.appendChild(text); // define que o texto será filho de h5
+    let text = document.createTextNode(accounts);
+
+    span.appendChild(text);
     h4.appendChild(span)
-    outTotal.appendChild(h4); // ...e que h5 será filho de divQuadro
-    sum += Number(listValues[i]);
+    outTotal.appendChild(h4);
+
+    sum += Number(accountList[i].value);
   }
+  
 
   let span = document.querySelectorAll('span');
   span.forEach(function (element) {
@@ -120,24 +125,27 @@ function itemRemove() {
   let span = document.querySelectorAll('span');
   let tam = span.length;
   let flag = 0;
-  let listNames = localStorage.getItem('names').split(';');
-  let listValues = localStorage.getItem('values').split(';');
+
   warning('');
+
+  let accountList = [];
+
+  if (localStorage.getItem('accounts')) {
+    accountList = JSON.parse(localStorage.getItem('accounts'));;
+  }
 
   for (let i = tam - 1; i >= 0; i--) {
     if (span[i].classList.contains('vermelho')) {
       span[i].remove();
-      listNames.splice(i, 1);
-      listValues.splice(i, 1);
+      accountList.splice(i, 1);
       flag++;
     }
   }
 
-  if (flag === 0) {
+  if (flag == 0) {
     warning('Selecione alguma conta primeiro');
   } else {
-    localStorage.setItem('names', listNames.join(';'));
-    localStorage.setItem('values', listValues.join(';'));
+    localStorage.setItem('accounts', JSON.stringify(accountList));
     warning('');
   }
   listAccounts()
@@ -163,48 +171,20 @@ inValue.addEventListener('keyup', enter)
 
 
 function clearList() {
-  if (!localStorage.getItem('names')) {
+  let accounts = localStorage.getItem('accounts');
+
+  if (!accounts) {
     warning('A lista já está vazia');
     return;
   }
 
   let confirmation = confirm('Deseja apagar os dados da lista de conta atual?')
   if (confirmation) {
-    localStorage.removeItem('names');
-    localStorage.removeItem('values');
-
-    listAccounts()
-    return;
-  } else {
-    return;
+    localStorage.removeItem('accounts');
+    listAccounts();
   }
 }
 
 const btnClearList = document.getElementById('btnClearList');
 btnClearList.addEventListener('click', clearList)
 
-function switchTheme() {
-  document.body.classList.toggle('is-light');
-  document.body.classList.toggle('is-dark');
-
-  let myImage = document.getElementById('minha-imagem');
-  let
-    theme = document.getElementById('planoDeFundo');
-  let title = document.getElementById('title')
-
-  if (
-    theme.textContent == 'DarkMode') {
-
-    theme.textContent = 'LightMode'
-
-    theme.classList.toggle('temaWhite');
-    theme.classList.toggle('temaBlack');
-    // title.textContent = 'Mr.Robot do Financeiro';
-  } else {
-    theme.textContent = 'DarkMode'
-    theme.classList.toggle('temaWhite');
-    theme.classList.toggle('temaBlack');
-    // title.textContent = 'Pantera do Financeiro';
-  }
-}
-document.getElementById('planoDeFundo').addEventListener('click', switchTheme)
