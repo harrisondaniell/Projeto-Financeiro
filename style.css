@@ -6,28 +6,12 @@ body {
   text-align: center;
 }
 
-
-img {
-  float: left;
-  height: 300px;
-  width: 300px;
-  padding-right: 80px;
-  border-radius: 20px;
-}
-
-
 input[type="text"] {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-}
-
-#planoDeFundo {
-  position: fixed;
-  top: 10px;
-  right: 40px;
 }
 
 #outAccountList {
@@ -38,13 +22,6 @@ input[type="text"] {
   font-size: 15px;
 }
 
-/* #outAccountList {
-  position: fixed;
-  top: 80px;
-  right: 80px;
-} */
-
-
 
 button {
   background-color: rebeccapurple;
@@ -53,7 +30,7 @@ button {
   font-weight: 700;
   padding: .5rem 1rem;
   transition: .15s;
-  color: white;
+  color: white;;
 }
 
 #btnClearList {
@@ -88,6 +65,11 @@ hr {
 
 h3 {
   color: red;
+  font-size: 20px;
+}
+
+pre {
+  font-size: 20px;
 }
 
 h4 {
@@ -98,6 +80,7 @@ h4 {
 
 span {
   font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
   margin-bottom: 5px;
   display: inline-block;
   transition: transform 0.2s ease-in-out;
@@ -108,14 +91,16 @@ span:hover {
 }
 
 nav {
-  background-color: rebeccapurple;
+  background-color: #6515DD;
   height: 50px;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 #title  {
   margin-top: 10px;
   color: white;
   font-size: 30px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
