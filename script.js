@@ -55,11 +55,22 @@ function register() {
 const btnRegister = document.getElementById('btnRegister');
 btnRegister.addEventListener('click', register);
 
+// função que limpa toda a lista de contas sempre que outra é adicionada
 function clearH4Elements() {
   let h4Elements = document.querySelectorAll('h4');
   h4Elements.forEach(function (element) {
     element.remove();
   });
+}
+
+// função responsável por criar o hr, é chamada na função abaixo que lista as contas
+function createHr(hr) {
+  let outTotal = getId('outTotal');
+  if (document.getElementsByTagName(hr).length === 0) {
+    let hrChild = document.createElement(hr)
+    outTotal.appendChild(hrChild)
+  }
+  clearH4Elements();
 }
 
 function listAccounts() {
@@ -75,7 +86,6 @@ function listAccounts() {
 
   let accountList = JSON.parse(localStorage.getItem('accounts'));
 
-
   let accounts = ''
   let sum = 0
   let tam = accountList.length;
@@ -84,11 +94,7 @@ function listAccounts() {
     return;
   }
 
-  if (document.getElementsByTagName('hr').length === 0) {
-    let hr = document.createElement('hr')
-    outTotal.appendChild(hr)
-  }
-  clearH4Elements();
+  createHr('hr')
 
   for (let i = 0; i < tam; i++) {
     accounts = `${accountList[i].description} - R$ ${Number(accountList[i].value).toFixed(2)}\n`;
@@ -103,7 +109,6 @@ function listAccounts() {
 
     sum += Number(accountList[i].value);
   }
-  
 
   let span = document.querySelectorAll('span');
   span.forEach(function (element) {
@@ -117,8 +122,6 @@ function listAccounts() {
 }
 
 listAccounts()
-
-// Alterando estilo e cor dos elementos h4 clicados
 
 
 function itemRemove() {
@@ -164,10 +167,23 @@ function enter(event) {
   }
 }
 
-let inDescription = document.getElementById('inDescription');
-let inValue = document.getElementById('inValue');
+let inDescription = getId('inDescription');
+let inValue = getId('inValue');
 inDescription.addEventListener('keyup', enter)
 inValue.addEventListener('keyup', enter)
+
+// função que vai filtrar os elementos de acordo com o usuario
+function filtrar() {
+  var filtro = getId("filter").value;
+
+  // Lógica de filtro aqui
+  // Você pode usar o valor 'filtro' para aplicar o filtro de acordo com a opção selecionada
+
+  // Exemplo de exibição do valor selecionado
+  console.log("Opção selecionada: " + filtro);
+}
+
+let filter = document.getElementById("filter").addEventListener('click', filtrar)
 
 
 function clearList() {
@@ -186,5 +202,5 @@ function clearList() {
 }
 
 const btnClearList = document.getElementById('btnClearList');
-btnClearList.addEventListener('click', clearList)
+btnClearList.addEventListener('change', clearList)
 

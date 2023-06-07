@@ -23,7 +23,7 @@ input[type="text"] {
 }
 
 
-button {
+button, select {
   background-color: rebeccapurple;
   border: none;
   border-radius: .25rem;
@@ -31,6 +31,12 @@ button {
   padding: .5rem 1rem;
   transition: .15s;
   color: white;;
+}
+
+select {
+  text-align: center;
+  width: 120px;
+  height: 32.5px;
 }
 
 #btnClearList {
