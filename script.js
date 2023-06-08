@@ -232,7 +232,7 @@ function clearList() {
   let confirmation = confirm('Deseja apagar os dados da lista de conta atual?')
   if (confirmation) {
     localStorage.removeItem('accounts');
-    listAccounts();
+    location.reload()
   }
 }
 
