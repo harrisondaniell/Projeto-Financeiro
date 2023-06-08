@@ -13,8 +13,6 @@ function warning(text) {
 function register() {
   let inDescription = getId('inDescription');
   let inValue = getId('inValue');
-  let outAccountList = getId('outAccountList');
-  let outTotal = getId('outTotal');
   let description = inDescription.value;
   let value = Number(inValue.value);
 
@@ -55,7 +53,7 @@ function register() {
 const btnRegister = document.getElementById('btnRegister');
 btnRegister.addEventListener('click', register);
 
-// função que limpa toda a lista de contas sempre que outra é adicionada
+// função que limpa toda a lista de contas sempre que um novo elemento é adicionado
 function clearH4Elements() {
   let h4Elements = document.querySelectorAll('h4');
   h4Elements.forEach(function (element) {
@@ -70,7 +68,39 @@ function createHr(hr) {
     let hrChild = document.createElement(hr)
     outTotal.appendChild(hrChild)
   }
-  clearH4Elements();
+}
+
+function createElements(tam, accountList) {
+  let outAccountList = getId('outAccountList');
+  let accounts = ''
+  let sum = 0
+
+  clearH4Elements()
+  for (let i = 0; i < tam; i++) {
+    accounts = `${accountList[i].description} - R$ ${Number(accountList[i].value).toFixed(2)}\n`;
+
+    let h4 = document.createElement('h4');
+    let span = document.createElement('span');
+    let text = document.createTextNode(accounts);
+
+    span.appendChild(text);
+    h4.appendChild(span)
+    outTotal.appendChild(h4);
+
+    sum += Number(accountList[i].value);
+  }
+  addClass();
+  outAccountList.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
+}
+
+function addClass(){
+  let span = document.querySelectorAll('span');
+  span.forEach(function (element) {
+    element.addEventListener('click', function mudarCor() {
+      warning('')
+      this.classList.toggle('vermelho');
+    });
+  });
 }
 
 function listAccounts() {
@@ -86,8 +116,6 @@ function listAccounts() {
 
   let accountList = JSON.parse(localStorage.getItem('accounts'));
 
-  let accounts = ''
-  let sum = 0
   let tam = accountList.length;
 
   if (h4.length == tam) {
@@ -96,29 +124,9 @@ function listAccounts() {
 
   createHr('hr')
 
-  for (let i = 0; i < tam; i++) {
-    accounts = `${accountList[i].description} - R$ ${Number(accountList[i].value).toFixed(2)}\n`;
+  createElements(tam, accountList)
 
-    let h4 = document.createElement('h4');
-    let span = document.createElement('span');
-    let text = document.createTextNode(accounts);
-
-    span.appendChild(text);
-    h4.appendChild(span)
-    outTotal.appendChild(h4);
-
-    sum += Number(accountList[i].value);
-  }
-
-  let span = document.querySelectorAll('span');
-  span.forEach(function (element) {
-    element.addEventListener('click', function mudarCor() {
-      warning('')
-      this.classList.toggle('vermelho');
-    });
-  });
-  outAccountList.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
-  // outTotal.textContent = accounts;
+  addClass()
 }
 
 listAccounts()
@@ -173,17 +181,51 @@ inDescription.addEventListener('keyup', enter)
 inValue.addEventListener('keyup', enter)
 
 // função que vai filtrar os elementos de acordo com o usuario
+let filter = document.getElementById("filter")
+
 function filtrar() {
-  var filtro = getId("filter").value;
+  let accountList = [];
+  if (localStorage.getItem('accounts')) {
+    accountList = JSON.parse(localStorage.getItem('accounts'));;
+  } else {
+    warning('Sem Contas para filtrar')
+    return;
+  }
+  let tam = accountList.length;
 
-  // Lógica de filtro aqui
-  // Você pode usar o valor 'filtro' para aplicar o filtro de acordo com a opção selecionada
-
-  // Exemplo de exibição do valor selecionado
-  console.log("Opção selecionada: " + filtro);
+  if (filter.value == 'maior') {
+    accountList.sort((a, b) => b.value - a.value);
+    (createElements(tam, accountList))
+    console.log(accountList);
+    return;
+  } else if(filter.value == 'menor'){
+    accountList.sort((a, b) => a.value - b.value);
+    (createElements(tam, accountList))
+  } else if(filter.value == 'alfabetica'){
+    accountList.sort((a, b) => {
+      const nomeA = a.description.toUpperCase();
+      const nomeB = b.description;
+    
+      if (nomeA < nomeB) {
+        return -1;
+      }
+      if (nomeA > nomeB) {
+        return 1;
+      }
+      return 0;
+    });
+    createElements(tam, accountList);
+    return;
+  }
+  else {
+    listAccounts()
+  }
 }
+filter.addEventListener('change', filtrar)
 
-let filter = document.getElementById("filter").addEventListener('click', filtrar)
+
+filtrar()
+
 
 
 function clearList() {
@@ -202,5 +244,6 @@ function clearList() {
 }
 
 const btnClearList = document.getElementById('btnClearList');
-btnClearList.addEventListener('change', clearList)
+btnClearList.addEventListener('click', clearList)
+
 
