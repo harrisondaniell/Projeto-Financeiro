@@ -63,15 +63,16 @@ function clearH4Elements() {
 
 // função responsável por criar o hr, é chamada na função abaixo que lista as contas
 function createHr(hr) {
-  let outTotal = getId('outTotal');
-  if (document.getElementsByTagName(hr).length === 0) {
+  let outAccountList = getId('outAccountList');
+  if (outAccountList.getElementsByTagName(hr).length === 0) {
     let hrChild = document.createElement(hr)
-    outTotal.appendChild(hrChild)
+    outAccountList.appendChild(hrChild)
   }
 }
 
 function createElements(tam, accountList) {
   let outAccountList = getId('outAccountList');
+  let outTotal = getId('outTotal')
   let accounts = ''
   let sum = 0
 
@@ -85,15 +86,15 @@ function createElements(tam, accountList) {
 
     span.appendChild(text);
     h4.appendChild(span)
-    outTotal.appendChild(h4);
-
+    outAccountList.appendChild(h4);
+    // adicionando evento de click ao novo elemento criado
     sum += Number(accountList[i].value);
   }
   addClass();
-  outAccountList.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
+  outTotal.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
 }
 
-function addClass(){
+function addClass() {
   let span = document.querySelectorAll('span');
   span.forEach(function (element) {
     element.addEventListener('click', function mudarCor() {
@@ -104,12 +105,10 @@ function addClass(){
 }
 
 function listAccounts() {
-  let outAccountList = getId('outAccountList');
   let outTotal = getId('outTotal');
   let h4 = document.querySelectorAll('h4')
 
   if (!localStorage.getItem('accounts')) {
-    outAccountList.textContent = '';
     outTotal.textContent = '';
     return;
   }
@@ -123,14 +122,10 @@ function listAccounts() {
   }
 
   createHr('hr')
-
   createElements(tam, accountList)
-
-  addClass()
 }
 
 listAccounts()
-
 
 function itemRemove() {
   let span = document.querySelectorAll('span');
@@ -183,7 +178,7 @@ inValue.addEventListener('keyup', enter)
 // função que vai filtrar os elementos de acordo com o usuario
 let filter = document.getElementById("filter")
 
-function filtrar() {
+function sortAccounts() {
   let accountList = [];
   if (localStorage.getItem('accounts')) {
     accountList = JSON.parse(localStorage.getItem('accounts'));;
@@ -195,21 +190,21 @@ function filtrar() {
 
   if (filter.value == 'maior') {
     accountList.sort((a, b) => b.value - a.value);
-    (createElements(tam, accountList))
+    createElements(tam, accountList)
     console.log(accountList);
     return;
-  } else if(filter.value == 'menor'){
+  } else if (filter.value == 'menor') {
     accountList.sort((a, b) => a.value - b.value);
-    (createElements(tam, accountList))
-  } else if(filter.value == 'alfabetica'){
+    createElements(tam, accountList)
+  } else if (filter.value == 'alfabetica') {
     accountList.sort((a, b) => {
-      const nomeA = a.description.toUpperCase();
-      const nomeB = b.description;
-    
-      if (nomeA < nomeB) {
+      const nameA = a.description.toUpperCase();
+      const nameB = b.description.toUpperCase();
+
+      if (nameA < nameB) {
         return -1;
       }
-      if (nomeA > nomeB) {
+      if (nameA > nameB) {
         return 1;
       }
       return 0;
@@ -221,10 +216,8 @@ function filtrar() {
     listAccounts()
   }
 }
-filter.addEventListener('change', filtrar)
+filter.addEventListener('change', sortAccounts)
 
-
-filtrar()
 
 
 
