@@ -9,8 +9,9 @@ function warning(text) {
   outWarning.textContent = text
 }
 
-// essa é a função principal
+// essa é a função responsável por registrar as contas
 function register() {
+  let filter = getId("filter")
   let inDescription = getId('inDescription');
   let inValue = getId('inValue');
   let description = inDescription.value;
@@ -33,8 +34,8 @@ function register() {
 
   let accounts = localStorage.getItem('accounts');
   let accountList = [];
-  // verificando se já existem dados no localStorage
 
+  // verificando se já existem dados no localStorage
   if (accounts) {
     accountList = JSON.parse(accounts);
   }
@@ -42,6 +43,7 @@ function register() {
   accountList.push({ description: description, value: value });
   localStorage.setItem('accounts', JSON.stringify(accountList));
 
+  filter.value = 'filtrar';
   listAccounts()
 
   inDescription.value = '';
@@ -87,9 +89,9 @@ function createElements(tam, accountList) {
     span.appendChild(text);
     h4.appendChild(span)
     outAccountList.appendChild(h4);
-    // adicionando evento de click ao novo elemento criado
     sum += Number(accountList[i].value);
   }
+  // adicionando evento de click aos novos elementos criados
   addClass();
   outTotal.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
 }
@@ -114,13 +116,10 @@ function listAccounts() {
   }
 
   let accountList = JSON.parse(localStorage.getItem('accounts'));
-
   let tam = accountList.length;
-
   if (h4.length == tam) {
     return;
   }
-
   createHr('hr')
   createElements(tam, accountList)
 }
@@ -176,9 +175,8 @@ inDescription.addEventListener('keyup', enter)
 inValue.addEventListener('keyup', enter)
 
 // função que vai filtrar os elementos de acordo com o usuario
-let filter = document.getElementById("filter")
-
 function sortAccounts() {
+  let filter = getId("filter")
   let accountList = [];
   if (localStorage.getItem('accounts')) {
     accountList = JSON.parse(localStorage.getItem('accounts'));;
@@ -213,17 +211,16 @@ function sortAccounts() {
     return;
   }
   else {
-    listAccounts()
+    createElements(tam, accountList)
   }
 }
+
+let filter = getId("filter")
 filter.addEventListener('change', sortAccounts)
-
-
 
 
 function clearList() {
   let accounts = localStorage.getItem('accounts');
-
   if (!accounts) {
     warning('A lista já está vazia');
     return;
