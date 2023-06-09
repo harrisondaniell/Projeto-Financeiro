@@ -78,9 +78,17 @@ function createElements(tam, accountList) {
   let accounts = ''
   let sum = 0
 
+
   clearH4Elements()
+  let biggestWord = checkLongestWord(tam, accountList)
+  let n = 0;
+  let space;
+  let string = ''
   for (let i = 0; i < tam; i++) {
-    accounts = `${accountList[i].description} - R$ ${Number(accountList[i].value).toFixed(2)}\n`;
+    n = (biggestWord - accountList[i].description.length)
+    space = ' '.repeat(n)
+    console.log(space)
+    accounts = `${accountList[i].description}${space} - R$ ${Number(accountList[i].value).toFixed(2)} `;
 
     let h4 = document.createElement('h4');
     let span = document.createElement('span');
@@ -95,6 +103,20 @@ function createElements(tam, accountList) {
   addClass();
   outTotal.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
 }
+
+function checkLongestWord(tam, accountList) {
+  let biggestWord = 0;
+  for (let i = 0; i < tam; i++) {
+    const words = accountList[i].description.split(' ');
+    words.forEach((word) => {
+      if (word.length > biggestWord) {
+        biggestWord = word.length;
+      }
+    });
+  }
+  return biggestWord;
+}
+
 
 function addClass() {
   let span = document.querySelectorAll('span');

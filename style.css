@@ -19,7 +19,7 @@ input[type="text"] {
 }
 
 #outTotal {
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin-top: 40px;
 }
 
@@ -88,6 +88,8 @@ span {
   display: inline-block;
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 span:hover {
@@ -106,5 +108,5 @@ nav {
   margin-top: 10px;
   color: white;
   font-size: 30px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
