@@ -80,20 +80,30 @@ function createElements(tam, accountList) {
 
 
   clearH4Elements()
+
   let biggestWord = checkLongestWord(tam, accountList)
   let n = 0;
   let space;
-  let string = ''
+  let space2;
+  let n0 = 0
   for (let i = 0; i < tam; i++) {
+
     n = (biggestWord - accountList[i].description.length)
     space = ' '.repeat(n)
-    console.log(space)
-    accounts = `${accountList[i].description}${space} - R$ ${Number(accountList[i].value).toFixed(2)} `;
+    if (accountList[i].value >= 100 && accountList[i].value < 1000) {
+      n0 = 1
+    } else if (accountList[i].value >= 1000) {
+      n0 = 2
+    } else {
+      n0 = 0
+    }
 
+    space2 = ' '.repeat(n0)
+
+    accounts = `${space2}${accountList[i].description}${space} - R$ ${Number(accountList[i].value).toFixed(2)}`;
     let h4 = document.createElement('h4');
     let span = document.createElement('span');
     let text = document.createTextNode(accounts);
-
     span.appendChild(text);
     h4.appendChild(span)
     outAccountList.appendChild(h4);
