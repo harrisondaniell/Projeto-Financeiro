@@ -9,6 +9,23 @@ function warning(text) {
   outWarning.textContent = text
 }
 
+function validateData(inValue, value, inDescription, description) {
+  if ((value == 0 || isNaN(value)) && description == '') {
+    warning('Informe os dados da conta')
+    inDescription.focus()
+    return false;
+  } else if (description == '') {
+    warning('Informe o nome da conta')
+    inDescription.focus()
+    return false
+  } else if (value == 0 || isNaN(value) || inValue.value == '') {
+    warning('Informe um valor válido.');
+    inValue.focus();
+    return false;
+  }
+  return true
+}
+
 // essa é a função responsável por registrar as contas
 function register() {
   let filter = getId("filter")
@@ -18,20 +35,9 @@ function register() {
   let value = Number(inValue.value);
 
   // validação de dados
-  if ((value == 0 || isNaN(value)) && description == '') {
-    warning('Informe os dados da conta')
-    inDescription.focus()
-    return;
-  } else if (description == '') {
-    warning('Informe o nome da conta')
-    inDescription.focus()
-    return
-  } else if (value == 0 || isNaN(value) || inValue.value == '') {
-    warning('Informe um valor válido.');
-    inValue.focus();
+  if(!validateData(inValue, value. inDescription, description)){
     return;
   }
-
   let accounts = localStorage.getItem('accounts');
   let accountList = [];
 
@@ -188,7 +194,6 @@ function itemRemove() {
   listAccounts()
 }
 
-
 let btnItemRemove = getId('btnRemoveItem');
 btnItemRemove.addEventListener('click', itemRemove)
 
@@ -201,10 +206,38 @@ function enter(event) {
   }
 }
 
+function maxCaracteres() {
+  if (this.value.length >= 22) {
+    this.value = this.value.slice(0, 22)
+  }
+}
+
 let inDescription = getId('inDescription');
 let inValue = getId('inValue');
+
 inDescription.addEventListener('keyup', enter)
-inValue.addEventListener('keyup', enter)
+inDescription.addEventListener('input', maxCaracteres)
+
+inValue.addEventListener('keydown', function (event) {
+  const allowedKeys = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0"];
+  if (this.value.length >= 10 && !allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
+    event.preventDefault();
+    return;
+  }
+  if (this.value.length >= 10) {
+    event.preventDefault();
+  }
+  if (!allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
+    event.preventDefault();
+    return;
+  }
+  if (event.key === "Backspace") {
+    this.value = this.value.slice(0, -1);
+  }
+  if (event.key === "Enter") {
+    enter(event);
+  }
+});
 
 // função que vai filtrar os elementos de acordo com o usuario
 function sortAccounts() {
@@ -249,7 +282,6 @@ function sortAccounts() {
 
 let filter = getId("filter")
 filter.addEventListener('change', sortAccounts)
-
 
 function clearList() {
   let accounts = localStorage.getItem('accounts');
