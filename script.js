@@ -35,7 +35,7 @@ function register() {
   let value = Number(inValue.value);
 
   // validação de dados
-  if(!validateData(inValue, value. inDescription, description)){
+  if(!validateData(inValue, value, inDescription, description)){
     return;
   }
   let accounts = localStorage.getItem('accounts');
