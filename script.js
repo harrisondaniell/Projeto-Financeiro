@@ -9,16 +9,19 @@ function warning(text) {
   outWarning.textContent = text
 }
 
+// função que vai validar os dados inseridos nos campos input
 function validateData(inValue, value, inDescription, description) {
   if ((value == 0 || isNaN(value)) && description == '') {
     warning('Informe os dados da conta')
     inDescription.focus()
     return false;
-  } else if (description == '') {
+  }
+  if (description == '') {
     warning('Informe o nome da conta')
     inDescription.focus()
     return false
-  } else if (value == 0 || isNaN(value) || inValue.value == '') {
+  }
+  if (value == 0 || isNaN(value) || inValue.value == '') {
     warning('Informe um valor válido.');
     inValue.focus();
     return false;
@@ -31,11 +34,10 @@ function register() {
   let filter = getId("filter")
   let inDescription = getId('inDescription');
   let inValue = getId('inValue');
-  let description = inDescription.value;
+  let description = inDescription.value.trim();
   let value = Number(inValue.value);
 
-  // validação de dados
-  if(!validateData(inValue, value, inDescription, description)){
+  if (!validateData(inValue, value, inDescription, description)) {
     return;
   }
   let accounts = localStorage.getItem('accounts');
@@ -78,48 +80,6 @@ function createHr(hr) {
   }
 }
 
-function createElements(tam, accountList) {
-  let outAccountList = getId('outAccountList');
-  let outTotal = getId('outTotal')
-  let accounts = ''
-  let sum = 0
-
-
-  clearH4Elements()
-
-  let biggestWord = checkLongestWord(tam, accountList)
-  let n = 0;
-  let space;
-  let space2;
-  let n0 = 0
-  for (let i = 0; i < tam; i++) {
-
-    n = (biggestWord - accountList[i].description.length)
-    space = ' '.repeat(n)
-    if (accountList[i].value >= 100 && accountList[i].value < 1000) {
-      n0 = 1
-    } else if (accountList[i].value >= 1000) {
-      n0 = 2
-    } else {
-      n0 = 0
-    }
-
-    space2 = ' '.repeat(n0)
-
-    accounts = `${space2}${accountList[i].description}${space} - R$ ${Number(accountList[i].value).toFixed(2)}`;
-    let h4 = document.createElement('h4');
-    let span = document.createElement('span');
-    let text = document.createTextNode(accounts);
-    span.appendChild(text);
-    h4.appendChild(span)
-    outAccountList.appendChild(h4);
-    sum += Number(accountList[i].value);
-  }
-  // adicionando evento de click aos novos elementos criados
-  addClass();
-  outTotal.textContent = `${tam} Conta(s) - Total R$: ${sum.toFixed(2)}`;
-}
-
 function checkLongestWord(tam, accountList) {
   let biggestWord = 0;
   for (let i = 0; i < tam; i++) {
@@ -133,7 +93,6 @@ function checkLongestWord(tam, accountList) {
   return biggestWord;
 }
 
-
 function addClass() {
   let span = document.querySelectorAll('span');
   span.forEach(function (element) {
@@ -142,6 +101,56 @@ function addClass() {
       this.classList.toggle('vermelho');
     });
   });
+}
+
+function createElements(tam, accountList) {
+  let outAccountList = getId('outAccountList');
+  let outTotal = getId('outTotal')
+  let accounts = ''
+  let sum = 0
+
+  clearH4Elements()
+
+  let biggestWord = checkLongestWord(tam, accountList)
+  let n = 0;
+  let n0 = 0
+  let space;
+  let space2;
+  let coin;
+
+  for (let i = 0; i < tam; i++) {
+    n = Math.max(biggestWord - accountList[i].description.length, 0)
+    if (accountList[i].value >= 10 && accountList[i].value < 100) {
+      n0 = 1
+    } else if (accountList[i].value >= 100 && accountList[i].value < 1000) {
+      n0 = 2
+    } else if (accountList[i].value >= 1000 && accountList[i].value < 10000) {
+      n0 = 4
+    } else if (accountList[i].value >= 10000 && accountList[i].value < 100000) {
+      n0 = 5
+    } else if (accountList[i].value >= 100000 && accountList[i].value < 1000000) {
+      n0 = 6
+    } else if ((accountList[i].value >= 1000000 && accountList[i].value < 10000000)){
+      n0 = 8
+    } else {
+      n0 = 0
+    }
+
+    space = ' '.repeat(n)
+    space2 = ' '.repeat(n0)
+    coin = accountList[i].value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    accounts = `${space2}${accountList[i].description}${space} - ${coin}`;
+    let h4 = document.createElement('h4');
+    let span = document.createElement('span');
+    let text = document.createTextNode(accounts);
+    span.appendChild(text);
+    h4.appendChild(span)
+    outAccountList.appendChild(h4);
+    sum += Number(accountList[i].value);
+  }
+  // adicionando evento de click aos novos elementos criados
+  addClass();
+  outTotal.textContent = `${tam} Conta(s) - ${sum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
 }
 
 function listAccounts() {
@@ -168,10 +177,9 @@ function itemRemove() {
   let span = document.querySelectorAll('span');
   let tam = span.length;
   let flag = 0;
+  let accountList = [];
 
   warning('');
-
-  let accountList = [];
 
   if (localStorage.getItem('accounts')) {
     accountList = JSON.parse(localStorage.getItem('accounts'));;
@@ -220,11 +228,11 @@ inDescription.addEventListener('input', maxCaracteres)
 
 inValue.addEventListener('keydown', function (event) {
   const allowedKeys = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0"];
-  if (this.value.length >= 10 && !allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
+  if (this.value.length >= 6 && !allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
     event.preventDefault();
     return;
   }
-  if (this.value.length >= 10) {
+  if (this.value.length >= 6) {
     event.preventDefault();
   }
   if (!allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
@@ -235,7 +243,7 @@ inValue.addEventListener('keydown', function (event) {
     this.value = this.value.slice(0, -1);
   }
   if (event.key === "Enter") {
-    enter(event);
+    this.addEventListener('keyup', enter)
   }
 });
 
