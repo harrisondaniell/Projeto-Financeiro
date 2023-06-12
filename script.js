@@ -35,7 +35,7 @@ function register() {
   let inDescription = getId('inDescription');
   let inValue = getId('inValue');
   let description = inDescription.value.trim();
-  let value = Number(inValue.value);
+  let value = Number(inValue.value.replace(/,/g, '.'));
 
   if (!validateData(inValue, value, inDescription, description)) {
     return;
@@ -130,8 +130,10 @@ function createElements(tam, accountList) {
       n0 = 5
     } else if (accountList[i].value >= 100000 && accountList[i].value < 1000000) {
       n0 = 6
-    } else if ((accountList[i].value >= 1000000 && accountList[i].value < 10000000)){
+    } else if ((accountList[i].value >= 1000000 && accountList[i].value < 10000000)) {
       n0 = 8
+    } else if(accountList[i].value >= 10000000 && accountList[i].value < 100000000) {
+      n0 = 9
     } else {
       n0 = 0
     }
@@ -227,12 +229,12 @@ inDescription.addEventListener('keyup', enter)
 inDescription.addEventListener('input', maxCaracteres)
 
 inValue.addEventListener('keydown', function (event) {
-  const allowedKeys = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "0"];
-  if (this.value.length >= 6 && !allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
+  const allowedKeys = ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0', '.', ','];
+  if (this.value.length >= 8 && !allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
     event.preventDefault();
     return;
   }
-  if (this.value.length >= 6) {
+  if (this.value.length >= 8) {
     event.preventDefault();
   }
   if (!allowedKeys.includes(event.key) && event.key !== "Backspace" && event.key !== "Enter") {
