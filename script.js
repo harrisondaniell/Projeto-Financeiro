@@ -188,8 +188,10 @@ function itemRemove() {
 
   if (localStorage.getItem('accounts')) {
     accountList = JSON.parse(localStorage.getItem('accounts'));;
+  } else{
+    warning('Sem itens para remover')
+    return;
   }
-
   for (let i = tam - 1; i >= 0; i--) {
     if (span[i].classList.contains('vermelho')) {
       span[i].remove();
@@ -208,7 +210,7 @@ function itemRemove() {
     localStorage.removeItem('accounts');
     location.reload();
   }
-  listAccounts()
+  listAccounts;
 }
 
 let btnItemRemove = getId('btnRemoveItem');
