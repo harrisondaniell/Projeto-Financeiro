@@ -76,6 +76,7 @@ function createHr(hr) {
   let outAccountList = getId('outAccountList');
   if (outAccountList.getElementsByTagName(hr).length === 0) {
     let hrChild = document.createElement(hr)
+    hrChild.id = 'outHr'
     outAccountList.appendChild(hrChild)
   }
 }
@@ -132,7 +133,7 @@ function createElements(tam, accountList) {
       n0 = 6
     } else if ((accountList[i].value >= 1000000 && accountList[i].value < 10000000)) {
       n0 = 8
-    } else if(accountList[i].value >= 10000000 && accountList[i].value < 100000000) {
+    } else if (accountList[i].value >= 10000000 && accountList[i].value < 100000000) {
       n0 = 9
     } else {
       n0 = 0
@@ -146,7 +147,7 @@ function createElements(tam, accountList) {
     let span = document.createElement('span');
     let text = document.createTextNode(accounts);
     span.appendChild(text);
-    h4.appendChild(span)
+    h4.appendChild(span);
     outAccountList.appendChild(h4);
     sum += Number(accountList[i].value);
   }
@@ -158,9 +159,11 @@ function createElements(tam, accountList) {
 function listAccounts() {
   let outTotal = getId('outTotal');
   let h4 = document.querySelectorAll('h4')
+  let accounts = localStorage.getItem('accounts');
 
-  if (!localStorage.getItem('accounts')) {
+  if (!accounts || accounts.length == 0) {
     outTotal.textContent = '';
+    clearH4Elements();
     return;
   }
 
@@ -200,6 +203,10 @@ function itemRemove() {
   } else {
     localStorage.setItem('accounts', JSON.stringify(accountList));
     warning('');
+  }
+  if (!localStorage.getItem('accounts') || localStorage.getItem('accounts').length === 2) {
+    localStorage.removeItem('accounts');
+    location.reload();
   }
   listAccounts()
 }
@@ -255,7 +262,7 @@ function sortAccounts() {
   let accountList = [];
   if (localStorage.getItem('accounts')) {
     accountList = JSON.parse(localStorage.getItem('accounts'));;
-  } 
+  }
   if (accountList.length == 0) {
     warning('Sem Contas para filtrar')
     return;
