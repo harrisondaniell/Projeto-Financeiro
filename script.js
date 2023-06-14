@@ -255,7 +255,8 @@ function sortAccounts() {
   let accountList = [];
   if (localStorage.getItem('accounts')) {
     accountList = JSON.parse(localStorage.getItem('accounts'));;
-  } else {
+  } 
+  if (accountList.length == 0) {
     warning('Sem Contas para filtrar')
     return;
   }
